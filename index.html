@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senhor Gravata | Catálogo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --preto: #0a0a0a;
+    --preto-suave: #1a1a1a;
+    --branco: #ffffff;
+    --offwhite: #fafafa;
+    --texto: #111111;
+    --texto-suave: #6b6b6b;
+    --linha: rgba(0,0,0,0.1);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--branco);
+    color:var(--texto);
+    font-family:'Inter',sans-serif;
+  }
+  .topo{
+    background:var(--preto);
+    color:var(--branco);
+    padding:72px 24px 60px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .logo-wrap{
+    width:100px;
+    height:100px;
+    margin:0 auto 24px;
+    border:1px solid rgba(255,255,255,0.25);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:transparent;
+    overflow:hidden;
+  }
+  .logo-wrap img{ width:100%; height:100%; object-fit:cover; }
+  .logo-wrap span{
+    font-family:'Fraunces',serif;
+    font-size:28px;
+    color:var(--branco);
+    letter-spacing:1px;
+  }
+  .topo h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(34px,5vw,52px);
+    margin:0 0 8px;
+    letter-spacing:0.5px;
+  }
+  .topo .risco{
+    width:40px;
+    height:1px;
+    background:rgba(255,255,255,0.4);
+    margin:20px auto;
+  }
+  .topo p{
+    font-size:13px;
+    color:rgba(255,255,255,0.65);
+    letter-spacing:3px;
+    text-transform:uppercase;
+    margin:0;
+    font-weight:500;
+  }
+
+  .barra{
+    max-width:1100px;
+    margin:0 auto;
+    padding:28px 24px 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  .barra input{
+    flex:1;
+    min-width:220px;
+    max-width:380px;
+    padding:11px 16px;
+    border:1px solid var(--linha);
+    border-radius:0;
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    background:var(--branco);
+    color:var(--texto);
+  }
+  .barra input:focus{ outline:none; border-color:var(--preto); }
+  .contagem{
+    font-size:13px;
+    color:var(--texto-suave);
+    letter-spacing:0.3px;
+  }
+
+  .grade{
+    max-width:1100px;
+    margin:0 auto;
+    padding:28px 24px 80px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+    gap:28px;
+  }
+
+  .card{
+    background:var(--branco);
+    border:1px solid var(--linha);
+    border-radius:0;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 28px rgba(0,0,0,0.08);
+  }
+
+  .fotos{
+    position:relative;
+    aspect-ratio:3/4;
+    background:var(--offwhite);
+    overflow:hidden;
+  }
+  .fotos img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:0;
+    transition:opacity 0.35s ease;
+  }
+  .fotos img.ativa{ opacity:1; }
+  .sem-foto{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--texto-suave);
+    font-family:'Fraunces',serif;
+    font-size:13px;
+    text-align:center;
+    padding:0 20px;
+    letter-spacing:0.3px;
+    opacity:0.8;
+  }
+  .pontos{
+    position:absolute;
+    bottom:12px; left:0; right:0;
+    display:flex;
+    justify-content:center;
+    gap:6px;
+  }
+  .pontos button{
+    width:6px; height:6px;
+    border-radius:50%;
+    border:none;
+    background:rgba(0,0,0,0.2);
+    cursor:pointer;
+    padding:0;
+  }
+  .pontos button.ativo{ background:var(--preto); }
+  .seta{
+    position:absolute;
+    top:0; bottom:0;
+    width:34%;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    z-index:2;
+  }
+  .seta.esq{ left:0; }
+  .seta.dir{ right:0; }
+
+  .info{
+    padding:18px 18px 20px;
+    border-top:1px solid var(--linha);
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .info .nome{
+    font-family:'Fraunces',serif;
+    font-size:18px;
+    font-weight:500;
+    color:var(--preto);
+  }
+  .info .preco{
+    font-size:15px;
+    color:var(--texto-suave);
+    font-weight:500;
+    letter-spacing:0.2px;
+  }
+  .info .whatsapp{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:10px 14px;
+    background:var(--preto);
+    color:var(--branco);
+    text-decoration:none;
+    font-size:14px;
+    font-weight:600;
+    border-radius:4px;
+    transition:background 0.15s ease;
+  }
+  .info .whatsapp:hover{
+    background:#222222;
+  }
+
+  .vazio{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--texto-suave);
+    font-size:15px;
+    grid-column:1/-1;
+  }
+
+  footer{
+    text-align:center;
+    padding:30px 20px 50px;
+    color:var(--texto-suave);
+    font-size:13px;
+    letter-spacing:0.3px;
+  }
+</style>
+</head>
+<body>
+
+<div class="topo">
+  <div class="logo-wrap" id="logoWrap"><span>SG</span></div>
+  <h1>Senhor Gravata</h1>
+  <div class="risco"></div>
+  <p>Catálogo</p>
+</div>
+
+<div class="barra">
+  <input type="text" id="busca" placeholder="Buscar gravata pelo nome...">
+  <div class="contagem" id="contagem"></div>
+</div>
+
+<div class="grade" id="grade"></div>
+
+<footer>Senhor Gravata — catálogo digital</footer>
+
+<script>
+const PASTA_GRAVATAS = "assets/gravatas/";
+const LOGO_PATH = "assets/logo/logo.png";
+const FOTOS_POR_GRAVATA = 3;
+const NOMES_FOTOS = ["foto1.png", "foto2.png", "foto3.png"];
+
+let dadosGravatas = [];
+
+function testarLogo(){
+  const img = new Image();
+  img.onload = function(){
+    document.getElementById("logoWrap").innerHTML =
+      '<img src="' + LOGO_PATH + '" alt="Logo Senhor Gravata">';
+  };
+  img.src = LOGO_PATH;
+}
+
+function criarCard(g){
+  const card = document.createElement("div");
+  card.className = "card";
+
+  const fotosDiv = document.createElement("div");
+  fotosDiv.className = "fotos";
+
+  let indiceAtual = 0;
+  const imgsCarregadas = [];
+
+  NOMES_FOTOS.forEach(function(nomeArq, i){
+    const img = document.createElement("img");
+    img.src = PASTA_GRAVATAS + g.id + "/" + nomeArq;
+    img.alt = g.nome + " - foto " + (i + 1);
+    if (i === 0) img.className = "ativa";
+    img.onerror = function(){ img.style.display = "none"; };
+    fotosDiv.appendChild(img);
+    imgsCarregadas.push(img);
+  });
+
+  const semFoto = document.createElement("div");
+  semFoto.className = "sem-foto";
+  fotosDiv.appendChild(semFoto);
+
+  function mostrar(i){
+    imgsCarregadas.forEach(function(im, idx){
+      im.classList.toggle("ativa", idx === i);
+    });
+    pontosEls.forEach(function(p, idx){
+      p.classList.toggle("ativo", idx === i);
+    });
+    indiceAtual = i;
+  }
+
+  const setaEsq = document.createElement("button");
+  setaEsq.className = "seta esq";
+  setaEsq.setAttribute("aria-label", "Foto anterior");
+  setaEsq.onclick = function(e){
+    e.stopPropagation();
+    mostrar((indiceAtual - 1 + FOTOS_POR_GRAVATA) % FOTOS_POR_GRAVATA);
+  };
+
+  const setaDir = document.createElement("button");
+  setaDir.className = "seta dir";
+  setaDir.setAttribute("aria-label", "Próxima foto");
+  setaDir.onclick = function(e){
+    e.stopPropagation();
+    mostrar((indiceAtual + 1) % FOTOS_POR_GRAVATA);
+  };
+
+  fotosDiv.appendChild(setaEsq);
+  fotosDiv.appendChild(setaDir);
+
+  const pontosDiv = document.createElement("div");
+  pontosDiv.className = "pontos";
+  const pontosEls = [];
+  for (let i = 0; i < FOTOS_POR_GRAVATA; i++){
+    const p = document.createElement("button");
+    if (i === 0) p.className = "ativo";
+    p.setAttribute("aria-label", "Foto " + (i + 1));
+    p.onclick = function(e){ e.stopPropagation(); mostrar(i); };
+    pontosDiv.appendChild(p);
+    pontosEls.push(p);
+  }
+  fotosDiv.appendChild(pontosDiv);
+
+  const info = document.createElement("div");
+  info.className = "info";
+  const nomeEl = document.createElement("div");
+  nomeEl.className = "nome";
+  nomeEl.textContent = g.nome;
+  const precoEl = document.createElement("div");
+  precoEl.className = "preco";
+  precoEl.textContent = "R$ " + g.preco;
+  const whatsappLink = document.createElement("a");
+  whatsappLink.className = "whatsapp";
+  whatsappLink.href = "https://wa.me/5561991474819?text=" + encodeURIComponent("Olá! Gostaria de saber mais sobre a gravata: " + g.nome + " (R$ " + g.preco + ").");
+  whatsappLink.target = "_blank";
+  whatsappLink.rel = "noopener noreferrer";
+  whatsappLink.textContent = "Enviar WhatsApp";
+  info.appendChild(nomeEl);
+  info.appendChild(precoEl);
+  info.appendChild(whatsappLink);
+
+  card.appendChild(fotosDiv);
+  card.appendChild(info);
+  return card;
+}
+
+function renderizar(lista){
+  const grade = document.getElementById("grade");
+  grade.innerHTML = "";
+  if (lista.length === 0){
+    const vazio = document.createElement("div");
+    vazio.className = "vazio";
+    vazio.textContent = "Nenhuma gravata encontrada.";
+    grade.appendChild(vazio);
+  } else {
+    lista.forEach(function(g){ grade.appendChild(criarCard(g)); });
+  }
+  document.getElementById("contagem").textContent =
+    lista.length + (lista.length === 1 ? " gravata" : " gravatas");
+}
+
+document.getElementById("busca").addEventListener("input", function(e){
+  const termo = e.target.value.trim().toLowerCase();
+  const filtradas = dadosGravatas.filter(function(g){
+    return g.nome.toLowerCase().includes(termo);
+  });
+  renderizar(filtradas);
+});
+
+fetch("gravatas.json")
+  .then(function(res){ return res.json(); })
+  .then(function(dados){
+    dadosGravatas = dados;
+    renderizar(dadosGravatas);
+  })
+  .catch(function(){
+    document.getElementById("grade").innerHTML =
+      '<div class="vazio">Não foi possível carregar gravatas.json. Verifique se o arquivo está na mesma pasta do index.html.</div>';
+  });
+
+testarLogo();
+</script>
+
+</body>
+</html>
